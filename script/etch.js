@@ -4,13 +4,11 @@ let grid = document.querySelector(".container");
 const colInput = document.getElementById("col-input"); //initial value from HTML
 let displayBoxNum = document.getElementById("noOfBoxes");
 let goColor = document.getElementById("color-submit");
-var currentColor = 'black'; //initializes as black
+var currentColor = "black"; //initializes as black
 
 //Checks when New Color Checked
 goColor.addEventListener("click", function (e){
-  let colorChoice = document.querySelector("input[name=color-choice]:checked").value
-  currentColor = colorChoice;
-  console.log(currentColor);
+  currentColor = document.querySelector("input[name=color-choice]:checked").value
 });
 
 
@@ -36,20 +34,18 @@ const resetButton = document.getElementById("reset-btn");
 resetButton.addEventListener("click", resetGrid);
 
 function resetGrid (){
-  let resetCells = document.querySelectorAll(".active-" + currentColor);
+  //returns nodelist of all child cells
+  let resetCells = document.querySelectorAll(".active");
   for (let i = 0; i < resetCells.length; i++){
-    resetCells[i].classList.remove("active-"+ currentColor);
+    resetCells[i].style.backgroundColor = "initial";
+    resetCells[i].classList.remove("active");
   }
 }
 
-/*
-currentColor is a dirty trick; should be some better way to switch styles
-Maybe by creating and removing new div's called color? 
-*/
-
 //Color on or Off on Grid
 function switchColor (cell) {
-  cell.classList.add("active-"+ currentColor);
+  cell.classList.add("active");
+  cell.style.backgroundColor = currentColor;
 }
 
 //Sets New Size on Grid
