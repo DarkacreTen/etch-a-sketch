@@ -1,6 +1,15 @@
 const GRIDDIM = 600; //Side of Grid
 const MAXSIZE = Math.pow(GRIDDIM,2);
 let grid = document.querySelector(".container");
+const colInput = document.getElementById("col-input"); //initial value from HTML
+let displayBoxNum = document.getElementById("noOfBoxes");
+
+let goColor = document.getElementById("color-submit");
+goColor.addEventListener("click", function (e){
+  let colorChoice = document.querySelector("input[name=color-choice]:checked").value
+  console.log(typeof(colorChoice));
+});
+
 
 //Calculate GridSize
 
@@ -13,8 +22,11 @@ function calculateSize(numColumns){
   }
 }
 
-//Inital Setup
-window.onload = calculateSize(4);
+//Displays Number of Boxes on Screen
+function displayBoxes(numColumns){
+  displayBoxNum.textContent = String(Math.pow(numColumns,2));
+}
+
 
 //Resets Grid
 const resetButton = document.getElementById("reset-btn");
@@ -23,13 +35,24 @@ resetButton.addEventListener("click", resetGrid);
 function resetGrid (){
   let resetCells = document.querySelectorAll(".active");
   for (let i = 0; i < resetCells.length; i++){
-    resetCells[i].classList.remove("active");
+    resetCells[i].classList.remove("active-black");
+    resetCells[i].classList.remove("active-red");
   }
 }
 
-let changeColor = (cell) => {
-  cell.classList.add("active");
+//Color on or Off on Grid
+function switchColor (cell) {
+  cell.classList.add("active-black");
+  //cell.classList.add("active-red");
 }
+
+//Sets New Size on Grid
+
+colInput.addEventListener("input", function(){
+  calculateSize(colInput.value);
+  resetGrid();
+  displayBoxes(colInput.value);
+})
 
 //Generates Grid, Elements and Active Spaces
 function makeGrid(numberOfBoxes){
@@ -53,7 +76,6 @@ function makeGrid(numberOfBoxes){
 
     gridItem.style.cssText = 'border-style: solid; border-color: black'; //delete later
     gridItem.style.borderWidth = "1px";
-    gridItem.innerHTML = "<span>" + i + "</span>";
 
     grid.appendChild(gridItem);
 
@@ -62,7 +84,7 @@ function makeGrid(numberOfBoxes){
       if (clickState){
         clickState = false;
       }else{
-        changeColor(cell);
+        switchColor(cell);
         clickState = true;
       }
     });
@@ -70,9 +92,13 @@ function makeGrid(numberOfBoxes){
     gridItem.addEventListener('mouseenter', function (e){
         let cell = e.target;
         if (clickState){
-          changeColor(cell);
+          switchColor(cell);
         }
     });
 
     }
 }
+
+//Inital Load
+window.onload = calculateSize(colInput.value);
+displayBoxes(colInput.value);

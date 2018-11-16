@@ -25,6 +25,10 @@ will continue filling in without formatting
   padding: auto;
 }
 
-.active{
-  background-color: black; 
+.active-black{
+  background-color: black;
+}
+
+.active-red{
+  background-color: red;
 }
