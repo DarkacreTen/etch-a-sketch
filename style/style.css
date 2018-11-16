@@ -16,3 +16,15 @@ will continue filling in without formatting
   border-style: solid;
   border-width: 1px;
 }
+
+#main-sketch{
+  display: block;
+  position: relative;
+  margin: auto;
+  width: 50%;
+  padding: auto;
+}
+
+.active{
+  background-color: black; 
+}

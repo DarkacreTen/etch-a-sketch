@@ -1,18 +1,47 @@
 const GRIDDIM = 600; //Side of Grid
+const MAXSIZE = Math.pow(GRIDDIM,2);
 let grid = document.querySelector(".container");
 
+//Calculate GridSize
+
+function calculateSize(numColumns){
+  if (numColumns > MAXSIZE){
+    numColumns = MAXSIZE;
+  }else{
+    numColumns *= numColumns;
+    makeGrid(numColumns);
+  }
+}
+
+//Inital Setup
+window.onload = calculateSize(4);
+
+//Resets Grid
+const resetButton = document.getElementById("reset-btn");
+resetButton.addEventListener("click", resetGrid);
+
+function resetGrid (){
+  let resetCells = document.querySelectorAll(".active");
+  for (let i = 0; i < resetCells.length; i++){
+    resetCells[i].classList.remove("active");
+  }
+}
+
+let changeColor = (cell) => {
+  cell.classList.add("active");
+}
+
+//Generates Grid, Elements and Active Spaces
 function makeGrid(numberOfBoxes){
   let numRowCol = Math.sqrt(numberOfBoxes); //num of columns / rows
   let gridItemSize = GRIDDIM / numRowCol;
+  let clickState = false; //initialize click value
   grid.style.display = "grid";
   grid.style.width = String(GRIDDIM) + "px";
   grid.style.height = String(GRIDDIM) +"px";
   grid.style.gridTemplateColumns = "repeat(" + numRowCol + ", " + gridItemSize+ "px)";
   grid.style.gridTemplateRows = "repeat(" + numRowCol + ", " + gridItemSize+ "px)";
   // single quotes don't work for some styles...
-
-  //grid.style.gridTemplateColumns = 'repeat (' + numRowCol + ', ' + gridItemSize +'px)';
-  //grid.style.gridTemplateRows = 'repeat (' + numRowCol + ', ' + gridItemSize +'px)';
 
 
   for(i = 0; i < numberOfBoxes; i++){
@@ -28,7 +57,22 @@ function makeGrid(numberOfBoxes){
 
     grid.appendChild(gridItem);
 
+    gridItem.addEventListener("click", function (e){
+      let cell = e.target;
+      if (clickState){
+        clickState = false;
+      }else{
+        changeColor(cell);
+        clickState = true;
+      }
+    });
+
+    gridItem.addEventListener('mouseenter', function (e){
+        let cell = e.target;
+        if (clickState){
+          changeColor(cell);
+        }
+    });
+
     }
 }
-
-window.onload = makeGrid(25);
