@@ -76,7 +76,8 @@ function makeGrid(numberOfBoxes){
     gridItem.style.width = gridItemSize;
     gridItem.style.height = gridItemSize;
 
-    gridItem.style.cssText = 'border-style: solid; border-color: black'; //delete later
+    gridItem.style.cssText =
+    'border-style: solid; border-color: rgb(175, 185, 193)'; //delete later
     gridItem.style.borderWidth = "1px";
 
     grid.appendChild(gridItem);
